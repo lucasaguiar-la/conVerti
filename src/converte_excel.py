@@ -1,36 +1,35 @@
-import os
+from src.utils import definir_caminho
 from win32com import client
+import os
 
 def converter_excel():
-    print("Entrou na função")
-    '''
-    # Caminhos
-    cod_dir = os.path.dirname(os.path.abspath(__file__))
-    arquivo_dir = os.path.join(cod_dir, "arquivo")
-    #pdf_dir = os.path.join(cod_dir, "final.pdf")
-    excel = client.Dispatch("Excel.Application")
-
     index = 0
     loop = 0
-    sheets = excel.Workbooks.Open(arquivo_dir)
-    output_workbook = excel.Workbooks.Add()
+    diretorio_arquivo = definir_caminho("../arquivos/originais/excel/arquivo.xlsx")
+    diretorio_destino = definir_caminho("../arquivos/convertidos/excel/")
 
+    print("Instanciando aplicação Excel...")
+    excel = client.Dispatch("Excel.Application")
+    planilhas = excel.Workbooks.Open(diretorio_arquivo)
+    arquivo_saida = excel.Workbooks.Add()
+
+    print("Iniciando conversão...")
     while True:
         try:
-            #pdf_dir = os.path.join(cod_dir, f"Arquivo_0{index}.pdf")
-            work_sheets = sheets.Worksheets[index]
-            work_sheets.Copy(None, output_workbook.Sheets(output_workbook.Sheets.Count))
-            #work_sheets.ExportAsFixedFormat(0, pdf_dir)
-            print(f"Convertendo página {index+1}")
+            planilha_ativa = planilhas.Worksheets[index]
+            planilha_ativa.Copy(None, arquivo_saida.Sheets(arquivo_saida.Sheets.Count))
+            print(f"\nConvertendo planilha/sheet {index+1}")
             index += 1
         except Exception as e:
-            print("Conversão .XLSX para .PDF concluída!/n")
+            print(f"\nAviso: {e}\n")
+            print("Conversão de Excel para PDF concluída!")
             loop + 1
             break
-    pdf_dir = os.path.join(cod_dir, f"Arquivo_0{loop}.pdf")
-    output_workbook.ExportAsFixedFormat(0, pdf_dir, 0, 1) 
+    pdf_dir = os.path.join(diretorio_destino, f"Arquivo_excel_{loop}.pdf")
+    arquivo_saida.ExportAsFixedFormat(0, pdf_dir, 0, 1) 
 
-    output_workbook.Saved = True
-    sheets.Close(False)    
+    arquivo_saida.Saved = True
+    planilhas.Close(False)
     excel.Quit()
-    '''
+
+    return True
