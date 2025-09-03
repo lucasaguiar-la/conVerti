@@ -1,0 +1,9 @@
+# Cache
+__pycache__
+
+# Ambiente virtual
+venv
+
+# Pastas
+arquivos/originais/*
+arquivos/convertidos/*
