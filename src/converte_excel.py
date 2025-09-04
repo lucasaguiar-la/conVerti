@@ -2,8 +2,7 @@ from src.utils import definir_caminho
 from win32com import client
 import os
 
-def converter_excel(aplicar_intervalo=False):
-    diretorio_arquivo = definir_caminho("../arquivos/originais/excel/arquivo.xlsx")
+def converter_excel(diretorio_arquivo, aplicar_intervalo=False):
     diretorio_destino = definir_caminho("../arquivos/convertidos/excel/")
 
     print("Instanciando aplicação Excel...")
